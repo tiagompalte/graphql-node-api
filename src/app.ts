@@ -21,3 +21,6 @@ class App {
 }
 
 export default new App().express
+
+//criar arquivo de config de acesso ao banco de dados:
+//sequelize init:config --config src/config/config.json

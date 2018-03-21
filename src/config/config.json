@@ -1,0 +1,16 @@
+{
+  "development": {
+    "username": "root",
+    "password": "root",
+    "database": "graphql_blog_development",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "docker": {
+    "username": "root",
+    "password": "root",
+    "database": "graphql_blog_development",
+    "host": "db",
+    "dialect": "mysql"
+  }
+}
