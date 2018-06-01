@@ -18,9 +18,12 @@ if(!db) {
 
     const sequelize: Sequelize.Sequelize = new Sequelize(
         config.database,
-        config.username,
-        config.password,
-        config
+        process.env.DB_USER || config.username,
+        process.env.DB_PASSWORD || config.password,
+        {
+            host: process.env.DB_HOST || config.host,
+            dialect: config.dialect
+        }
     )
 
     fs.readdirSync(__dirname)
