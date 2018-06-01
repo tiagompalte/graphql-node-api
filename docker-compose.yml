@@ -1,28 +1,29 @@
 version: '3'
-networks:
-  banco:
 services:
   db:
-    container_name: graphql_blog_development
-    image: mysql
+    container_name: graphql_db
+    image: mysql:5.6
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=graphql_blog_development
+      MYSQL_USER: 'root'
+      MYSQL_ROOT_PASSWORD: 'root'
     ports:
-      - 3306:3306
-    networks:
-      - banco
-  backend:
+      - '3306:3306'
+
+  api:
+    links:
+      - db
+    depends_on:
+      - db
     build:
       context: .
       dockerfile: Dockerfile
-    command: node_modules/.bin/nodemon --exec npm run docker
+    command: dev
     ports:
       - 3000:3000
     volumes:
-     - .:/home/app/backend
-     - /home/app/backend/node_modules
-    networks:
-      - banco
-    depends_on:
-      - db
+     - ./dist:/usr/src/app/dist
+    environment:
+      port: 3000
+      DB_HOST: 'db'
+      DB_USER: 'root'
+      DB_PASSWORD: 'root'
