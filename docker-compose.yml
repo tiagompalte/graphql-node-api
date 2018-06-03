@@ -2,7 +2,7 @@ version: '3'
 services:
   db:
     container_name: graphql_db
-    image: mysql:5.6
+    image: mysql:5.6-alpine
     environment:
       MYSQL_USER: 'root'
       MYSQL_ROOT_PASSWORD: 'root'

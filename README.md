@@ -2,13 +2,13 @@
 
 Aplicação node API desenvolvida para aprendizagem do GraphQL.
 
-## Instalar dependências
+## Instalar as dependências
 `npm i`
 
 ## Rodar o Gulp
 `npm run gulp`
 
-## Criar o banco de dado
+## Criar o banco de dados
 `docker-compose up -d db`
 
 `cd src && ../node_modules/.bin/sequelize db:create`
