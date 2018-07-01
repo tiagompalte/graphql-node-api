@@ -4,7 +4,7 @@ FROM node:10.3-alpine
 ENV HOME=/usr/src/app
 
 #Copia o arquivo package.json
-COPY package*.json $HOME/dist
+COPY package*.json $HOME/
 
 #comando WORKDIR para dizer qual será o diretório da aplicação
 WORKDIR $HOME
