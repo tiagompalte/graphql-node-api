@@ -1,0 +1,761 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Node GraphQL API",
+		"_postman_id": "97667bdc-ca26-1e8a-cc56-0881b61481b9",
+		"description": "Collection of requests for GraphQL API from course at Udemy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "application/graphql",
+			"description": "",
+			"item": [
+				{
+					"name": "User",
+					"description": "",
+					"item": [
+						{
+							"name": "Query: users: no variables",
+							"request": {
+								"url": "http://localhost:3000/graphql",
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/graphql",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "query {\n\tusers(first: 15, offset: 0) {\n\t\tid\n\t\tname\n\t\temail\n\t\tcreatedAt\n\t\tposts {\n\t\t\tid\n\t\t\ttitle\n\t\t}\n\t}\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Query: users",
+							"request": {
+								"url": {
+									"raw": "http://localhost:3000/graphql?variables={\"first\": 15, \"offset\": 0}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"graphql"
+									],
+									"query": [
+										{
+											"key": "variables",
+											"value": "{\"first\": 15, \"offset\": 0}",
+											"equals": true,
+											"description": ""
+										}
+									],
+									"variable": []
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/graphql",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "query getUsersList($first: Int, $offset: Int) {\n\tusers(first: $first, offset: $offset) {\n\t\tid\n\t\tname\n\t\temail\n\t\tcreatedAt\n\t\tposts {\n\t\t\tid\n\t\t\ttitle\n\t\t\tcreatedAt\n\t\t}\n\t}\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Query: user",
+							"request": {
+								"url": {
+									"raw": "http://localhost:3000/graphql?variables={\"id\": 1}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"graphql"
+									],
+									"query": [
+										{
+											"key": "variables",
+											"value": "{\"id\": 1}",
+											"equals": true,
+											"description": ""
+										}
+									],
+									"variable": []
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/graphql",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "query getUserById($id: ID!) {\n\tuser(id: $id) {\n\t\tid\n\t\tname\n\t\temail\n\t\tcreatedAt\n\t\tposts {\n\t\t\ttitle\n\t\t\tcreatedAt\n\t\t}\n\t}\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Mutation: createUser",
+							"request": {
+								"url": {
+									"raw": "http://localhost:3000/graphql?variables={\"userCreateInput\": {\"name\": \"Dany\", \"email\": \"dany@email.com\", \"password\": \"1234\"}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"graphql"
+									],
+									"query": [
+										{
+											"key": "variables",
+											"value": "{\"userCreateInput\": {\"name\": \"Dany\", \"email\": \"dany@email.com\", \"password\": \"1234\"}}",
+											"equals": true,
+											"description": ""
+										}
+									],
+									"variable": []
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/graphql",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "mutation createNewUser($userCreateInput: UserCreateInput!) {\n\tcreateUser(input: $userCreateInput) {\n\t\tid\n\t\tname\n\t\temail\n\t\tcreatedAt\n\t}\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Mutation: updateUser",
+							"request": {
+								"url": {
+									"raw": "http://localhost:3000/graphql?variables={\"userUpdateInput\": {\"name\": \"Daenerys Targaryen\", \"email\": \"dany@email.com\", \"photo\": \"some_photo\"}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"graphql"
+									],
+									"query": [
+										{
+											"key": "variables",
+											"value": "{\"userUpdateInput\": {\"name\": \"Daenerys Targaryen\", \"email\": \"dany@email.com\", \"photo\": \"some_photo\"}}",
+											"equals": true,
+											"description": ""
+										}
+									],
+									"variable": []
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/graphql",
+										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTUwOTk5NjYzMH0.c5zJ6OubzY22SpNhQ9bK_xnep10T0jqYWcd7HD6HGN0",
+										"description": "",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "mutation updateExistingUser($userUpdateInput: UserUpdateInput!) {\n\tupdateUser(input: $userUpdateInput) {\n\t\tid\n\t\tname\n\t\temail\n\t\tphoto\n\t\tcreatedAt\n\t\tupdatedAt\n\t}\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Mutation: updateUserPassword",
+							"request": {
+								"url": {
+									"raw": "http://localhost:3000/graphql?variables={\"userUpdatePasswordInput\": {\"password\": \"123456\"}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"graphql"
+									],
+									"query": [
+										{
+											"key": "variables",
+											"value": "{\"userUpdatePasswordInput\": {\"password\": \"123456\"}}",
+											"equals": true,
+											"description": ""
+										}
+									],
+									"variable": []
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/graphql",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "mutation updateExistingUserPassword($userUpdatePasswordInput: UserUpdatePasswordInput!) {\n\tupdateUserPassword(input: $userUpdatePasswordInput)\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Mutation: deleteUser",
+							"request": {
+								"url": {
+									"raw": "http://localhost:3000/graphql?variables={\"id\": 1}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"graphql"
+									],
+									"query": [
+										{
+											"key": "variables",
+											"value": "{\"id\": 1}",
+											"equals": true,
+											"description": ""
+										}
+									],
+									"variable": []
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/graphql",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "mutation deleteExistingUser {\n\tdeleteUser\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Post",
+					"description": "",
+					"item": [
+						{
+							"name": "Query: posts",
+							"request": {
+								"url": {
+									"raw": "http://localhost:3000/graphql?variables={\"first\": 15, \"offset\": 0}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"graphql"
+									],
+									"query": [
+										{
+											"key": "variables",
+											"value": "{\"first\": 15, \"offset\": 0}",
+											"equals": true,
+											"description": ""
+										}
+									],
+									"variable": []
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/graphql",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "query getPostsList($first: Int, $offset: Int) {\n  posts(first: $first, offset: $offset) {\n    id\n    title\n    content\n    author {\n      name\n      email\n    }\n    comments {\n      comment\n    }\n  }\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Query: post",
+							"request": {
+								"url": {
+									"raw": "http://localhost:3000/graphql?variables={\"id\": 1}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"graphql"
+									],
+									"query": [
+										{
+											"key": "variables",
+											"value": "{\"id\": 1}",
+											"equals": true,
+											"description": ""
+										}
+									],
+									"variable": []
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/graphql",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "query getPostById($id: ID!) {\n\tpost(id: $id) {\n\t\tid\n\t\ttitle\n\t\tcontent\n\t\tauthor {\n\t\t\tname\n\t\t\temail\n\t\t}\n\t\tcomments {\n\t\t\tcomment\n\t\t}\n\t}\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Mutation: createPost",
+							"request": {
+								"url": {
+									"raw": "http://localhost:3000/graphql?variables={\"postInput\": {\"title\": \"My new post\", \"content\": \"Lorem ipsum dolor\", \"photo\": \"some_photo\"}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"graphql"
+									],
+									"query": [
+										{
+											"key": "variables",
+											"value": "{\"postInput\": {\"title\": \"My new post\", \"content\": \"Lorem ipsum dolor\", \"photo\": \"some_photo\"}}",
+											"equals": true,
+											"description": ""
+										}
+									],
+									"variable": []
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/graphql",
+										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImlhdCI6MTUwOTk5NDQ5M30.LwnmYrf7ppPRTV3-rQfby2gGNt_9PXlLNa8dx2YZDFY",
+										"description": "",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "mutation createNewPost($postInput: PostInput!) {\n\tcreatePost(input: $postInput) {\n\t\tid\n\t\ttitle\n\t\tcontent\n\t\tauthor {\n\t\t\tname\n\t\t}\n\t}\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Mutation: updatePost",
+							"request": {
+								"url": {
+									"raw": "http://localhost:3000/graphql?variables={\"id\": 1, \"postInput\": {\"title\": \"My changed post\", \"content\": \"Lorem ipsum dolor\", \"photo\": \"some_photo\"}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"graphql"
+									],
+									"query": [
+										{
+											"key": "variables",
+											"value": "{\"id\": 1, \"postInput\": {\"title\": \"My changed post\", \"content\": \"Lorem ipsum dolor\", \"photo\": \"some_photo\"}}",
+											"equals": true,
+											"description": ""
+										}
+									],
+									"variable": []
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/graphql",
+										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImlhdCI6MTUwOTk5NDQ5M30.LwnmYrf7ppPRTV3-rQfby2gGNt_9PXlLNa8dx2YZDFY",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "mutation updateExistingPost($id: ID!, $postInput: PostInput!) {\n\tupdatePost(id: $id, input: $postInput) {\n\t\tid\n\t\ttitle\n\t\tcontent\n\t\tauthor {\n\t\t\tname\n\t\t}\n\t}\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Mutation: deletePost",
+							"request": {
+								"url": {
+									"raw": "http://localhost:3000/graphql?variables={\"id\": 1}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"graphql"
+									],
+									"query": [
+										{
+											"key": "variables",
+											"value": "{\"id\": 1}",
+											"equals": true,
+											"description": ""
+										}
+									],
+									"variable": []
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/graphql",
+										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImlhdCI6MTUwOTk5NDQ5M30.LwnmYrf7ppPRTV3-rQfby2gGNt_9PXlLNa8dx2YZDFY",
+										"description": "",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "mutation deleteExistingPost($id: ID!) {\n\tdeletePost(id: $id)\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Comment",
+					"description": "",
+					"item": [
+						{
+							"name": "Query: commentsByPost",
+							"request": {
+								"url": {
+									"raw": "http://localhost:3000/graphql?variables={\"postId\": 1, \"first\": 15, \"offset\": 0}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"graphql"
+									],
+									"query": [
+										{
+											"key": "variables",
+											"value": "{\"postId\": 1, \"first\": 15, \"offset\": 0}",
+											"equals": true,
+											"description": ""
+										}
+									],
+									"variable": []
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/graphql",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "query getCommentsListByPost($postId: ID!, $first: Int, $offset: Int) {\n\tcommentsByPost(postId: $postId, first: $first, offset: $offset) {\n\t\tid\n\t\tcomment\n\t\tuser {\n\t\t\tname\n\t\t\temail\n\t\t}\n\t\tpost {\n\t\t\ttitle\n\t\t}\n\t}\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Mutation: createComment",
+							"request": {
+								"url": {
+									"raw": "http://localhost:3000/graphql?variables={\"commentInput\": {\"comment\": \"My first comment\", \"post\": \"1\"}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"graphql"
+									],
+									"query": [
+										{
+											"key": "variables",
+											"value": "{\"commentInput\": {\"comment\": \"My first comment\", \"post\": \"1\"}}",
+											"equals": true,
+											"description": ""
+										}
+									],
+									"variable": []
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/graphql",
+										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImlhdCI6MTUwOTk5NDQ5M30.LwnmYrf7ppPRTV3-rQfby2gGNt_9PXlLNa8dx2YZDFY",
+										"description": "",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "mutation createNewComment($commentInput: CommentInput!) {\n\tcreateComment(input: $commentInput) {\n\t\tid\n\t\tcomment\n\t\tuser {\n\t\t\tname\n\t\t}\n\t\tpost {\n\t\t\tid\n\t\t\ttitle\n\t\t}\n\t}\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Mutation: updateComment",
+							"request": {
+								"url": {
+									"raw": "http://localhost:3000/graphql?variables={\"id\": 1, \"commentInput\": {\"comment\": \"Comment changed\", \"post\": \"1\"}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"graphql"
+									],
+									"query": [
+										{
+											"key": "variables",
+											"value": "{\"id\": 1, \"commentInput\": {\"comment\": \"Comment changed\", \"post\": \"1\"}}",
+											"equals": true,
+											"description": ""
+										}
+									],
+									"variable": []
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/graphql",
+										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImlhdCI6MTUwOTk5NDQ5M30.LwnmYrf7ppPRTV3-rQfby2gGNt_9PXlLNa8dx2YZDFY",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "mutation updateExinstingComment($id: ID!, $commentInput: CommentInput!) {\n\tupdateComment(id: $id, input: $commentInput) {\n\t\tid\n\t\tcomment\n\t\tuser {\n\t\t\tname\n\t\t}\n\t\tpost {\n\t\t\tid\n\t\t\ttitle\n\t\t}\n\t}\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Mutation: deleteComment",
+							"request": {
+								"url": {
+									"raw": "http://localhost:3000/graphql?variables={\"id\": 1}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"graphql"
+									],
+									"query": [
+										{
+											"key": "variables",
+											"value": "{\"id\": 1}",
+											"equals": true,
+											"description": ""
+										}
+									],
+									"variable": []
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/graphql",
+										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer fdgdfg",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "mutation deleteExistingComment($id: ID!) {\n\tdeleteComment(id: $id)\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Token",
+					"description": "",
+					"item": [
+						{
+							"name": "Mutation: createToken",
+							"request": {
+								"url": {
+									"raw": "http://localhost:3000/graphql?variables={\"email\": \"dany@email.com\", \"password\": \"1234\"}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"graphql"
+									],
+									"query": [
+										{
+											"key": "variables",
+											"value": "{\"email\": \"dany@email.com\", \"password\": \"1234\"}",
+											"equals": true,
+											"description": ""
+										}
+									],
+									"variable": []
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/graphql",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "mutation createNewToken($email: String!, $password: String!) {\n\tcreateToken(email: $email, password: $password) {\n\t\ttoken\n\t}\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		},
+		{
+			"name": "application/json",
+			"description": "",
+			"item": [
+				{
+					"name": "User",
+					"description": "",
+					"item": [
+						{
+							"name": "Query: users",
+							"request": {
+								"url": "http://localhost:3000/graphql",
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"query\": \"\\nquery getUsersList($first: Int, $offset: Int){\\nusers(first: $first, offset: $offset) {\\n name\\n email\\n createdAt\\n }\\n }\\n\",\n  \"variables\": {\n    \"first\": 20,\n    \"offset\": 0\n  }\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		}
+	]
+}
