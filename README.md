@@ -8,6 +8,9 @@ Aplicação node API desenvolvida para aprendizagem do GraphQL.
 ## Rodar o Gulp
 `npm run gulp`
 
+## Rodar em ambiente de desenvolvimento
+`npm run dev`
+
 ## Criar o banco de dados
 `docker-compose up -d db`
 
