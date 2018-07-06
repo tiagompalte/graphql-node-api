@@ -13,17 +13,17 @@ let db = null
 if(!db) {
     db = {}
     
-    const operatorAliases = false
+    const operatorAliases = {
+        $in: Sequelize.Op.in
+    }
+
     config = Object.assign({operatorAliases}, config)
 
     const sequelize: Sequelize.Sequelize = new Sequelize(
         config.database,
-        process.env.DB_USER || config.username,
-        process.env.DB_PASSWORD || config.password,
-        {
-            host: process.env.DB_HOST || config.host,
-            dialect: config.dialect
-        }
+        config.username,
+        config.password,
+        config
     )
 
     fs.readdirSync(__dirname)
