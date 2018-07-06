@@ -43,7 +43,7 @@ export const commentResolvers = {
 
         createComment: compose(...authResolvers) 
         ((parent, {input}, {db, authUser}: {db: DbConnection, authUser: AuthUser}, info: GraphQLResolveInfo) => {
-            input.auth = authUser
+            input.user = authUser.id
             return db.sequelize.transaction((t: Transaction) => {
                 return db.Comment
                     .create(input, {transaction: t})   
@@ -59,7 +59,7 @@ export const commentResolvers = {
                     .then((comment: CommentInstance) => {
                         throwError(!comment, `Comment with id ${id} not found!`)
                         throwError(comment.get('user') != authUser.id, `Unauthorized! You can only edit comments by yourself`)
-                        input.auth = authUser
+                        input.user = authUser.id
                         return comment.update(input, {transaction: t})
                     })
             }).catch(handleError)
