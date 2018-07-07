@@ -1,3 +1,4 @@
+import * as graphqlFileds from 'graphql-fields'
 import { GraphQLResolveInfo } from "graphql";
 import { Transaction } from "sequelize";
 import { DbConnection } from "../../../interfaces/DbConnectionInterface";
@@ -7,6 +8,7 @@ import { authResolvers } from "../../composable/auth.resolver";
 import { compose } from "../../composable/composable.resolver";
 import { AuthUser } from "../../../interfaces/AuthUserInterface";
 import { DataLoaders } from "../../../interfaces/DataLoadersInterface";
+import { RequestedFields } from '../../ast/RequestedFields';
 
 export const postResolvers = {
 
@@ -14,34 +16,38 @@ export const postResolvers = {
 
         author: (post, args, {db, dataloaders: {userLoader}}: {db: DbConnection, dataloaders: DataLoaders}, info: GraphQLResolveInfo) => {
             return userLoader
-                    .load(post.get('author'))
+                    .load({key: post.get('author'), info})
                     .catch(handleError)
         },
 
-        comments: (post, {first = 10, offset = 0}, {db}: {db: DbConnection}, info: GraphQLResolveInfo) => {
+        comments: (post, {first = 10, offset = 0}, {db, requestFields}: {db: DbConnection, requestFields: RequestedFields}, info: GraphQLResolveInfo) => {
             return db.Comment
                 .findAll({
                     where: {post: post.get('id')},
                     limit: first,
-                    offset: offset
+                    offset: offset,
+                    attributes: requestFields.getFields(info)
                 }).catch(handleError)
         }
     },
 
     Query: {
 
-        posts: (parent, {first = 10, offset = 0}, {db}: {db: DbConnection}, info: GraphQLResolveInfo) => {
+        posts: (parent, {first = 10, offset = 0}, {db, requestFields}: {db: DbConnection, requestFields: RequestedFields}, info: GraphQLResolveInfo) => {            
             return db.Post
                 .findAll({
                     limit: first,
-                    offset: offset
+                    offset: offset,
+                    attributes: requestFields.getFields(info, {keep: ['id'], exclude: ['comments']})
                 }).catch(handleError)
         },
 
-        post: (parent, {id}, {db}: {db: DbConnection}, info: GraphQLResolveInfo) => {
+        post: (parent, {id}, {db, requestFields}: {db: DbConnection, requestFields: RequestedFields}, info: GraphQLResolveInfo) => {
             id = parseInt(id)
             return db.Post
-                .findById(id)
+                .findById(id, {
+                    attributes: requestFields.getFields(info, {keep: ['id'], exclude: ['comments']})
+                })
                 .then((post: PostInstance) => {
                     throwError(!post, `Post with id ${id} not found!`)
                     return post
