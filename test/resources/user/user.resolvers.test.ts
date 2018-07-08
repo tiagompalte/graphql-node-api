@@ -285,7 +285,97 @@ describe('User', () => {
 
         })
 
-      })    
+        it('should block operation if token is invalid', () => {
+
+          let body = {
+            query: `
+              mutation updateExistingUser($input: UserUpdateInput!) {
+                updateUser(input: $input) {
+                  name
+                  email
+                  photo
+                }
+              }
+            `,
+            variables: {
+              input: {
+                name: 'Star Lord',
+                email: 'peter@guardians.com',
+                photo: 'some_photo'
+              }
+            }
+          }
+
+          return chai.request(app)
+                      .post('/graphql')
+                      .set('content-type', 'application/json')
+                      .set('authorization', 'Bearer INVALID_TOKEN')
+                      .send(JSON.stringify(body))
+                      .then(res => {
+                        expect(res.body.data.updateUser).to.be.null
+                        expect(res.body).to.have.keys(['data', 'errors'])
+                        expect(res.body.errors).to.be.an('array')
+                        expect(res.body.errors[0].message).to.equal('JsonWebTokenError: jwt malformed')
+                      }).catch(handleError)
+
+        })
+
+      })  
+      
+      describe('updateUserPassword', () => {
+
+        it('should update the password of an existing User', () => {
+
+          let body = {
+            query: `
+              mutation updateUserPassword($input: UserUpdatePasswordInput!) {
+                updateUserPassword(input: $input)
+              }
+            `,
+            variables: {
+              input: {
+                password: 'peter123'
+              }
+            }
+          }
+
+          return chai.request(app)
+                      .post('/graphql')
+                      .set('content-type', 'application/json')
+                      .set('authorization', `Bearer ${token}`)
+                      .send(JSON.stringify(body))
+                      .then(res => {
+                        expect(res.body.data.updateUserPassword).to.be.true
+                      }).catch(handleError)
+
+        })
+
+      })
+
+      describe('deleteUser', () => {
+
+        it('should delete an existing User', () => {
+
+          let body = {
+            query: `
+              mutation {
+                deleteUser
+              }
+            `
+          }
+
+          return chai.request(app)
+                      .post('/graphql')
+                      .set('content-type', 'application/json')
+                      .set('authorization', `Bearer ${token}`)
+                      .send(JSON.stringify(body))
+                      .then(res => {
+                        expect(res.body.data.deleteUser).to.be.true
+                      }).catch(handleError)
+
+        })
+
+      })
 
     })
 
