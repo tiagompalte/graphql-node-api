@@ -76,7 +76,7 @@ export const userResolvers = {
                 return db.User
                     .findById(authUser.id)
                     .then((user: UserInstance) => {
-                        throwError(!user, `User with id ${authUser.id} not found!`)
+                        throwError(!user, `User with id ${authUser.id} not found!`)                        
                         return user.update(input, {transaction: t})
                     })
             }).catch(handleError)
