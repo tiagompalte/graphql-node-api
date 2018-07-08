@@ -5,5 +5,13 @@
     "database": "graphql_blog_development",
     "host": "127.0.0.1",
     "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": "root",
+    "database": "graphql_blog_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "logging": false
   }
 }

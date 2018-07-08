@@ -31,7 +31,7 @@ class App {
             (req, res, next) => {                
                 req['context']['db'] = db
                 req['context']['dataloaders'] = this.dataLoaderFactory.getLoaders()
-                req['context']['requestedFields'] = this.requestedFields
+                req['context']['requestFields'] = this.requestedFields
                 next()
             },
 
