@@ -95,13 +95,140 @@ describe('Comment', () => {
                       .set('content-type', 'application/json')
                       .send(JSON.stringify(body))
                       .then(res => {
-                        const commentsList = res.body.data.commentsByPost
+                        const updatedComment = res.body.data.commentsByPost
                         expect(res.body.data).to.be.an('object')
-                        expect(commentsList).to.be.an('array')
-                        expect(commentsList[0]).to.not.have.keys(['id','createdAt','updatedAt'])
-                        expect(commentsList[0]).to.have.keys(['comment', 'user', 'post'])
-                        expect(parseInt(commentsList[0].user.id)).to.equal(userId)
-                        expect(parseInt(commentsList[0].post.id)).to.equal(postId)
+                        expect(updatedComment).to.be.an('array')
+                        expect(updatedComment[0]).to.not.have.keys(['id','createdAt','updatedAt'])
+                        expect(updatedComment[0]).to.have.keys(['comment', 'user', 'post'])
+                        expect(parseInt(updatedComment[0].user.id)).to.equal(userId)
+                        expect(parseInt(updatedComment[0].post.id)).to.equal(postId)
+                      }).catch(handleError)    
+
+        })
+
+      })
+
+    })
+
+  })
+
+  describe('Mutations', () => {
+
+    describe('application/json', () => {
+
+      describe('createComment', () => {
+
+        it('should create a new comment', () => {
+
+          let body = {
+            query: `
+              mutation createNewComment($input: CommentInput!) {
+                createComment(input: $input) {
+                  comment
+                  user {
+                    id
+                    name
+                  }
+                  post {
+                    id
+                    title
+                  }
+                }
+              }
+            `,
+            variables: {
+              input: {
+                comment: 'New comment',
+                post: postId
+              }
+            }
+          }
+
+          return chai.request(app)
+                      .post('/graphql')
+                      .set('content-type', 'application/json')
+                      .set('Authorization', `Bearer ${token}`)
+                      .send(JSON.stringify(body))
+                      .then(res => {
+                        const updatedComment = res.body.data.createComment
+                        expect(res.body.data).to.be.an('object')
+                        expect(res.body.data).to.be.key('createComment')
+                        expect(updatedComment).to.be.an('object')
+                        expect(updatedComment).to.have.keys(['comment', 'user', 'post'])
+                        expect(updatedComment.user.name).to.equal('Peter Quill')
+                        expect(parseInt(updatedComment.user.id)).to.equal(userId)
+                        expect(updatedComment.post.title).to.equal('First post')
+                      }).catch(handleError)    
+
+        })
+
+      })
+
+      describe('updateComment', () => {
+
+        it('should update a existing comment', () => {
+
+          let body = {
+            query: `
+              mutation updateExistingComment($id: ID!, $input: CommentInput!) {
+                updateComment(id: $id, input: $input) {
+                  id
+                  comment
+                }
+              }
+            `,
+            variables: {
+              id: commentId,
+              input: {
+                comment: 'Comment changed',
+                post: postId
+              }
+            }
+          }
+
+          return chai.request(app)
+                      .post('/graphql')
+                      .set('content-type', 'application/json')
+                      .set('Authorization', `Bearer ${token}`)
+                      .send(JSON.stringify(body))
+                      .then(res => {
+                        const updatedComment = res.body.data.updateComment
+                        expect(res.body.data).to.be.an('object')
+                        expect(res.body.data).to.be.key('updateComment')
+                        expect(updatedComment).to.be.an('object')
+                        expect(updatedComment).to.have.keys(['id', 'comment'])
+                        expect(updatedComment.comment).to.equal('Comment changed')
+                      }).catch(handleError)    
+
+        })
+
+      })
+
+      describe('deleteComment', () => {
+
+        it('should delete a existing comment', () => {
+
+          let body = {
+            query: `
+              mutation deleteExistingComment($id: ID!) {
+                deleteComment(id: $id) 
+              }
+            `,
+            variables: {
+              id: commentId
+            }
+          }
+
+          return chai.request(app)
+                      .post('/graphql')
+                      .set('content-type', 'application/json')
+                      .set('Authorization', `Bearer ${token}`)
+                      .send(JSON.stringify(body))
+                      .then(res => {
+                        const deletedComment = res.body.data.deleteComment
+                        expect(res.body.data).to.be.an('object')
+                        expect(res.body.data).to.be.key('deleteComment')
+                        expect(deletedComment).to.be.true
                       }).catch(handleError)    
 
         })
