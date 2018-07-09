@@ -50,6 +50,9 @@ describe('User', () => {
                 users {
                   name
                   email
+                  posts {
+                    title
+                  }
                 }
               }
             `
@@ -60,11 +63,11 @@ describe('User', () => {
                      .set('content-type', 'application/json')
                      .send(JSON.stringify(body))
                      .then(res => {
-                       const usersList = res.body.data.users
-                       expect(res.body.data).to.be.an('object')
-                       expect(usersList).to.be.an('array')
-                       expect(usersList[0]).to.not.have.keys(['id','photo','createdAt','updatedAt','posts'])
-                       expect(usersList[0]).to.have.keys(['name', 'email'])
+                        const usersList = res.body.data.users
+                        expect(res.body.data).to.be.an('object')
+                        expect(usersList).to.be.an('array')
+                        expect(usersList[0]).to.not.have.keys(['id','photo','createdAt','updatedAt'])
+                        expect(usersList[0]).to.have.keys(['name', 'email', 'posts'])
                      }).catch(handleError)
 
         })
