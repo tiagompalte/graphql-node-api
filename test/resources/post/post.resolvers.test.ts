@@ -204,4 +204,129 @@ describe('Post', () => {
 
   })
 
+  describe('Mutations', () => {
+
+    describe('application/json', () => {
+
+      describe('createPost', () => {
+
+        it('should create a new Post', () => {
+
+          let body = {
+            query: `
+              mutation createNewPost($input: PostInput!) {
+                createPost(input: $input) {
+                  id
+                  title
+                  content
+                  author {
+                    id
+                    name
+                    email
+                  }
+                }
+              }
+            `,
+            variables: {
+              input: {
+                title: 'Fourth post',
+                content: 'Fourth content',
+                photo: 'some_photo'
+              }
+            }
+          }
+
+          return chai.request(app)
+                      .post('/graphql')
+                      .set('content-type', 'application/json')
+                      .set('authorization', `Bearer ${token}`)
+                      .send(JSON.stringify(body))
+                      .then(res => {                        
+                        const updatedPost = res.body.data.createPost
+                        expect(updatedPost).to.be.an('object')
+                        expect(updatedPost).to.have.keys(['id', 'title', 'content', 'author'])
+                        expect(updatedPost.title).to.equal('Fourth post')
+                        expect(updatedPost.content).to.equal('Fourth content')
+                        expect(parseInt(updatedPost.author.id)).to.equal(userId)
+                      }).catch(handleError)    
+
+        })
+
+      })
+
+      describe('updatePost', () => {
+
+        it('should update an existing Post', () => {
+
+          let body = {
+            query: `
+              mutation updateExistingPost($id: ID!, $input: PostInput!) {
+                updatePost(id: $id, input: $input) {
+                  title
+                  content
+                  photo
+                }
+              }
+            `,
+            variables: {
+              id: postId,
+              input: {
+                title: 'Post changed',
+                content: 'Content changed',
+                photo: 'some_photo_2'
+              }
+            }
+          }
+
+          return chai.request(app)
+                      .post('/graphql')
+                      .set('content-type', 'application/json')
+                      .set('authorization', `Bearer ${token}`)
+                      .send(JSON.stringify(body))
+                      .then(res => {                        
+                        const updatedPost = res.body.data.updatePost
+                        expect(updatedPost).to.be.an('object')
+                        expect(updatedPost).to.have.keys(['title', 'content', 'photo'])
+                        expect(updatedPost.title).to.equal('Post changed')
+                        expect(updatedPost.content).to.equal('Content changed')
+                        expect(updatedPost.photo).to.equal('some_photo_2')
+                      }).catch(handleError)    
+
+        })
+
+      })
+
+      describe('deletePost', () => {
+
+        it('should delete an existing Post', () => {
+
+          let body = {
+            query: `
+              mutation deleteExistingPost($id: ID!) {
+                deletePost(id: $id)
+              }
+            `,
+            variables: {
+              id: postId
+            }
+          }
+
+          return chai.request(app)
+                      .post('/graphql')
+                      .set('content-type', 'application/json')
+                      .set('authorization', `Bearer ${token}`)
+                      .send(JSON.stringify(body))
+                      .then(res => {                        
+                        expect(res.body.data).to.have.key('deletePost')
+                        expect(res.body.data.deletePost).to.be.true
+                      }).catch(handleError)    
+
+        })
+
+      })
+
+    })
+
+  })
+
 })
