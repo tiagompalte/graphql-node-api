@@ -19,6 +19,9 @@ Aplicação node API desenvolvida para aprendizagem do GraphQL.
 ## Rodar os testes
 `npm test`
 
+## Verificar a cobertura dos testes
+`npm run coverage`
+
 ## Levantar a aplicação
 `docker-compose up`
 
