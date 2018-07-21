@@ -4,6 +4,9 @@
   "description": "Aplicação Blog utilizando GraphQL",
   "main": "index.js",
   "scripts": {
+    "clusters": "NODE_ENV=development port=8080 node dist/clusters",
+    "build": "npm run gulp build",
+    "start": "npm run build && npm run clusters",
     "dev": "NODE_ENV=development JWT_SECRET=iron_man node_modules/.bin/nodemon --delay 5 dist/index",
     "gulp": "node_modules/.bin/gulp",
     "test": "NODE_ENV=test JWT_SECRET=jwt_test mocha",
